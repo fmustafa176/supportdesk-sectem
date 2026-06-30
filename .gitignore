@@ -1,0 +1,19 @@
+node_modules/
+dist/
+build/
+
+# db
+*.db
+
+# env
+.env
+.env.local
+
+# challenge files - not for github
+instructions.txt
+software-engineering-internship-challenge.txt
+Design/
+
+# misc
+.DS_Store
+*.log
