@@ -37,6 +37,11 @@ docker setup
 ```
 - access the frontend at localhost:5173 and backend api at localhost:3001
 
+production deployment (railway)
+- this project is pre-configured as a monorepo for instant deployment on railway.app
+- just connect your github repo to railway and it will automatically build the frontend and serve the full-stack app natively using node.js
+- no configuration needed! the root package.json handles the build and start commands perfectly.
+
 how to run tests
 - the tests check for ticket creation, validation, urgent detection, and status updates
 - run tests from the backend directory:

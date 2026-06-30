@@ -12,10 +12,20 @@ app.use(express.json());
 app.use('/api/tickets', ticketRoutes);
 app.use('/api/dashboard', dashboardRoutes);
 
+const path = require('path');
+
 // basic health check
 app.get('/api/health', (req, res) => {
   res.json({ status: 'ok' });
 });
+
+// serve frontend in production
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname, '../../frontend/dist')));
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../../frontend/dist/index.html'));
+  });
+}
 
 // only start listening if not in test mode
 if (process.env.NODE_ENV !== 'test') {
