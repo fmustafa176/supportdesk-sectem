@@ -1,7 +1,5 @@
-supportdesk
-```
-https://supportdesk-sectem-copy-production.up.railway.app/
-```
+[SupportDesk](https://supportdesk-sectem-copy-production.up.railway.app/)
+
 a simple, functional support ticket management system built for the software engineering internship challenge.
 
 technology stack
