@@ -1,0 +1,22 @@
+{
+  "name": "supportdesk-backend",
+  "version": "1.0.0",
+  "description": "backend api for supportdesk ticket system",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js",
+    "test": "jest --verbose"
+  },
+  "dependencies": {
+    "better-sqlite3": "^11.0.0",
+    "cors": "^2.8.5",
+    "express": "^4.21.0",
+    "express-validator": "^7.2.0"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "nodemon": "^3.1.0",
+    "supertest": "^7.0.0"
+  }
+}
