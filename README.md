@@ -92,8 +92,8 @@ time log
 - planning: 30 minutes
 - backend and database: 1 hour 30 minutes
 - frontend: 2 hours
-- testing: 30 minutes
-- documentation and polish: 30 minutes
-- total: 5 hours
+- testing: 1 hour 30 minutes
+- documentation and polish: 1 hour
+- total: 6 hours and 30 minutes
 
 i confirm that i completed this challenge without using generative ai, an ai coding assistant, or an ai-enabled editor. i understand the submitted code and can explain and modify it.
