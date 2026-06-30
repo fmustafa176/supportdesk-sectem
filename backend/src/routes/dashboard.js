@@ -9,7 +9,7 @@ router.get('/', (req, res) => {
     const open = db.prepare("SELECT COUNT(*) as count FROM tickets WHERE status = 'Open'").get().count;
     const inProgress = db.prepare("SELECT COUNT(*) as count FROM tickets WHERE status = 'In Progress'").get().count;
     const resolved = db.prepare("SELECT COUNT(*) as count FROM tickets WHERE status = 'Resolved'").get().count;
-    const urgent = db.prepare('SELECT COUNT(*) as count FROM tickets WHERE is_urgent = 1').get().count;
+    const urgent = db.prepare("SELECT COUNT(*) as count FROM tickets WHERE is_urgent = 1 AND status != 'Resolved'").get().count;
 
     res.json({ total, open, inProgress, resolved, urgent });
   } catch (err) {

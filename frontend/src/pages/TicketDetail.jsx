@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { getTicket, updateTicketStatus, getCustomerTickets } from '../api/tickets';
+import { getTicket, updateTicketStatus, getCustomerTickets, deleteTicket } from '../api/tickets';
 
 function TicketDetail() {
   const { id } = useParams();
@@ -48,6 +48,17 @@ function TicketDetail() {
     }
   }
 
+  async function handleDelete() {
+    if (window.confirm('Are you sure you want to delete this ticket? This cannot be undone.')) {
+      try {
+        await deleteTicket(ticket.id);
+        navigate('/tickets');
+      } catch (err) {
+        alert('failed to delete ticket');
+      }
+    }
+  }
+
   function getPriorityBadge(p) {
     const cls = p === 'High' ? 'badge-high' : p === 'Medium' ? 'badge-medium' : 'badge-low';
     return <span className={`badge ${cls}`}>{p}</span>;
@@ -69,9 +80,14 @@ function TicketDetail() {
           <h2>Ticket #{ticket.id}</h2>
           {ticket.is_urgent ? <span className="badge badge-urgent">URGENT</span> : null}
         </div>
-        <button className="btn btn-secondary" onClick={() => navigate('/tickets')}>
-          Back to list
-        </button>
+        <div style={{ display: 'flex', gap: 8 }}>
+          <button className="btn btn-secondary" onClick={handleDelete} style={{ borderColor: 'var(--danger)', color: 'var(--danger)' }}>
+            Delete
+          </button>
+          <button className="btn btn-primary" onClick={() => navigate('/tickets')}>
+            Back to list
+          </button>
+        </div>
       </div>
 
       <div className="detail-grid">
@@ -125,19 +141,35 @@ function TicketDetail() {
 
             <div className="detail-item">
               <label>Status</label>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginTop: 4 }}>
-                {getStatusBadge(ticket.status)}
-                <select 
-                  value={ticket.status} 
-                  onChange={(e) => handleStatusChange(e.target.value)}
+              <div className="status-slider" style={{ marginTop: 8 }}>
+                <div 
+                  className="slider-bg" 
+                  style={{ 
+                    transform: `translateX(${ticket.status === 'Open' ? '0%' : ticket.status === 'In Progress' ? '100%' : '200%'})`,
+                    backgroundColor: ticket.status === 'Open' ? '#3b82f6' : ticket.status === 'In Progress' ? '#f59e0b' : '#10b981'
+                  }} 
+                />
+                <button 
+                  className={`slider-option ${ticket.status === 'Open' ? 'active' : ''}`}
+                  onClick={() => handleStatusChange('Open')}
                   disabled={updating}
-                  style={{ padding: '4px 8px', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border)' }}
                 >
-                  <option value="Open">Open</option>
-                  <option value="In Progress">In Progress</option>
-                  <option value="Resolved">Resolved</option>
-                </select>
-                {updating && <span style={{ fontSize: 12, color: 'var(--text-secondary)' }}>saving...</span>}
+                  Open
+                </button>
+                <button 
+                  className={`slider-option ${ticket.status === 'In Progress' ? 'active' : ''}`}
+                  onClick={() => handleStatusChange('In Progress')}
+                  disabled={updating}
+                >
+                  In Progress
+                </button>
+                <button 
+                  className={`slider-option ${ticket.status === 'Resolved' ? 'active' : ''}`}
+                  onClick={() => handleStatusChange('Resolved')}
+                  disabled={updating}
+                >
+                  Resolved
+                </button>
               </div>
             </div>
           </div>

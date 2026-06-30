@@ -64,6 +64,13 @@ router.get('/', (req, res) => {
       countParams.push(status);
     }
 
+    if (req.query.exclude_status) {
+      query += ' AND status != ?';
+      countQuery += ' AND status != ?';
+      params.push(req.query.exclude_status);
+      countParams.push(req.query.exclude_status);
+    }
+
     // sort by created_at, default newest first
     const sortOrder = sort === 'oldest' ? 'ASC' : 'DESC';
     query += ` ORDER BY created_at ${sortOrder}`;
@@ -138,5 +145,17 @@ router.patch('/:id/status', statusValidation, validate, (req, res) => {
   }
 });
 
+// DELETE /api/tickets/:id - delete a ticket
+router.delete('/:id', (req, res) => {
+  try {
+    const result = db.prepare('DELETE FROM tickets WHERE id = ?').run(req.params.id);
+    if (result.changes === 0) {
+      return res.status(404).json({ error: 'ticket not found' });
+    }
+    res.json({ success: true });
+  } catch (err) {
+    res.status(500).json({ error: 'failed to delete ticket' });
+  }
+});
 
 module.exports = router;

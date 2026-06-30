@@ -40,3 +40,7 @@ export function getCustomerTickets(email) {
 export function getDashboard() {
   return request('/dashboard');
 }
+
+export function deleteTicket(id) {
+  return request(`/tickets/${id}`, { method: 'DELETE' });
+}

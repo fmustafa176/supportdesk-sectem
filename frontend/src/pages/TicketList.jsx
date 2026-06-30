@@ -15,6 +15,7 @@ function TicketList() {
   const priority = searchParams.get('priority') || '';
   const status = searchParams.get('status') || '';
   const sort = searchParams.get('sort') || 'newest';
+  const activeTab = searchParams.get('tab') || 'active';
   const page = parseInt(searchParams.get('page') || '1');
 
   useEffect(() => {
@@ -22,8 +23,14 @@ function TicketList() {
     const params = { page, limit: 10 };
     if (search) params.search = search;
     if (priority) params.priority = priority;
-    if (status) params.status = status;
     if (sort) params.sort = sort;
+
+    if (activeTab === 'resolved') {
+      params.status = 'Resolved';
+    } else {
+      params.exclude_status = 'Resolved';
+      if (status) params.status = status;
+    }
 
     getTickets(params)
       .then((data) => {
@@ -32,7 +39,7 @@ function TicketList() {
       })
       .catch(console.error)
       .finally(() => setLoading(false));
-  }, [search, priority, status, sort, page]);
+  }, [search, priority, status, sort, page, activeTab]);
 
   function updateFilter(key, value) {
     const params = new URLSearchParams(searchParams);
@@ -65,6 +72,21 @@ function TicketList() {
         </button>
       </div>
 
+      <div className="tabs-container">
+        <button 
+          className={`tab ${activeTab === 'active' ? 'active' : ''}`}
+          onClick={() => updateFilter('tab', 'active')}
+        >
+          Active Tickets
+        </button>
+        <button 
+          className={`tab ${activeTab === 'resolved' ? 'active' : ''}`}
+          onClick={() => updateFilter('tab', 'resolved')}
+        >
+          Resolved Tickets
+        </button>
+      </div>
+
       <div className="filters-bar">
         <input
           type="text"
@@ -78,12 +100,15 @@ function TicketList() {
           <option value="Medium">Medium</option>
           <option value="High">High</option>
         </select>
-        <select value={status} onChange={(e) => updateFilter('status', e.target.value)}>
-          <option value="">All Status</option>
-          <option value="Open">Open</option>
-          <option value="In Progress">In Progress</option>
-          <option value="Resolved">Resolved</option>
-        </select>
+        
+        {activeTab === 'active' && (
+          <select value={status} onChange={(e) => updateFilter('status', e.target.value)}>
+            <option value="">All Status</option>
+            <option value="Open">Open</option>
+            <option value="In Progress">In Progress</option>
+          </select>
+        )}
+        
         <select value={sort} onChange={(e) => updateFilter('sort', e.target.value)}>
           <option value="newest">Newest First</option>
           <option value="oldest">Oldest First</option>
@@ -113,7 +138,11 @@ function TicketList() {
               </thead>
               <tbody>
                 {tickets.map((t) => (
-                  <tr key={t.id} className="clickable" onClick={() => navigate(`/tickets/${t.id}`)}>
+                  <tr 
+                    key={t.id} 
+                    className={`clickable ${t.status === 'Resolved' ? 'resolved-row' : ''}`} 
+                    onClick={() => navigate(`/tickets/${t.id}`)}
+                  >
                     <td>#{t.id}</td>
                     <td>{t.customer_name}</td>
                     <td>

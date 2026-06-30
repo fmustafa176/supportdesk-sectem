@@ -20,7 +20,9 @@ app.get('/api/health', (req, res) => {
 // only start listening if not in test mode
 if (process.env.NODE_ENV !== 'test') {
   app.listen(PORT, () => {
-    console.log(`server running on port ${PORT}`);
+    console.log(`\n===========================================`);
+    console.log(`🚀 Backend running at: http://localhost:${PORT}`);
+    console.log(`===========================================\n`);
   });
 }
 

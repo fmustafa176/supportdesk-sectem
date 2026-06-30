@@ -42,6 +42,7 @@ api endpoints summary
 - get /api/tickets : list tickets with support for search, filtering, sorting, and pagination
 - get /api/tickets/:id : get a single ticket's details
 - patch /api/tickets/:id/status : update ticket status (open, in progress, resolved)
+- delete /api/tickets/:id : delete a ticket
 - get /api/tickets/customer/:email : get all tickets from a specific customer email
 - get /api/dashboard : get total ticket counts and stats
 
@@ -58,9 +59,9 @@ duplicate email decision
 - this solves the problem by grouping tickets logically, so a support agent has full context of a customer's history without stopping the customer from reporting new issues.
 
 initiative feature explanation
-- feature added: full application dockerization and backend pagination
-- why selected: a professional application needs to be easily deployable, and ticket lists grow very quickly. 
-- what problem it solves: docker removes the "it works on my machine" problem, making setup instant. pagination prevents the browser and database from crashing when trying to load thousands of tickets at once on the dashboard.
+- features added: full application dockerization, backend pagination, and advanced ui polish (animated status slider, active/resolved tabs, pulsing urgent badges).
+- why selected: a professional application needs to be easily deployable, performant with large datasets, and feel premium to use. 
+- what problem it solves: docker removes the "it works on my machine" problem. pagination prevents the browser and database from crashing when loading thousands of tickets. the ui polish (tabs, slider) reduces cognitive load for support agents and makes the system enjoyable to use.
 - future improvements: i would add redis caching for the dashboard statistics, since counting all rows on every dashboard load will get slow as the database grows.
 
 known limitations
