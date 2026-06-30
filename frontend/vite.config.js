@@ -6,5 +6,8 @@ export default defineConfig({
   plugins: [react()],
   server: {
     host: true,
+    allowedHosts: [
+      'supportdesk-sectem-copy-production.up.railway.app'
+    ]
   },
 })
