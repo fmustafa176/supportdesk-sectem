@@ -15,29 +15,38 @@ local setup (without docker)
 - clone the repository
 - database setup: sqlite creates the file automatically, no external db service is needed
 - backend:
+```
   cd backend
   npm install
   npm run dev
+```
   (runs on localhost:3001)
 - frontend:
+```
   cd frontend
   npm install
   npm run dev
+```
   (runs on localhost:5173)
 
 docker setup
 - ensure docker and docker-compose are installed
 - from the root directory run:
-  docker-compose up --build
+```
+ docker-compose up --build
+```
 - access the frontend at localhost:5173 and backend api at localhost:3001
 
 how to run tests
 - the tests check for ticket creation, validation, urgent detection, and status updates
 - run tests from the backend directory:
+```
   cd backend
   npm run test
+```
 
 api endpoints summary
+```
 - post /api/tickets : create a new ticket
 - get /api/tickets : list tickets with support for search, filtering, sorting, and pagination
 - get /api/tickets/:id : get a single ticket's details
@@ -45,7 +54,7 @@ api endpoints summary
 - delete /api/tickets/:id : delete a ticket
 - get /api/tickets/customer/:email : get all tickets from a specific customer email
 - get /api/dashboard : get total ticket counts and stats
-
+```
 assumptions made
 - sqlite is adequate for the scale of this mini application
 - no authentication or role-based access control was requested, so anyone can manage any ticket
@@ -59,9 +68,9 @@ duplicate email decision
 - this solves the problem by grouping tickets logically, so a support agent has full context of a customer's history without stopping the customer from reporting new issues.
 
 initiative feature explanation
-- features added: full application dockerization, backend pagination, and advanced ui polish (animated status slider, active/resolved tabs, pulsing urgent badges).
-- why selected: a professional application needs to be easily deployable, performant with large datasets, and feel premium to use. 
-- what problem it solves: docker removes the "it works on my machine" problem. pagination prevents the browser and database from crashing when loading thousands of tickets. the ui polish (tabs, slider) reduces cognitive load for support agents and makes the system enjoyable to use.
+- features added: full application dockerization, backend pagination.
+- why selected: a professional application needs to be easily deployable, performant with large datasets. 
+- what problem it solves: docker removes the "it works on my machine" problem. pagination prevents the browser and database from crashing when loading thousands of tickets.
 - future improvements: i would add redis caching for the dashboard statistics, since counting all rows on every dashboard load will get slow as the database grows.
 
 known limitations
