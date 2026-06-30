@@ -11,7 +11,7 @@ function Sidebar() {
         <NavLink to="/" end className={({ isActive }) => isActive ? 'active' : ''}>
           Dashboard
         </NavLink>
-        <NavLink to="/tickets" className={({ isActive }) => isActive ? 'active' : ''}>
+        <NavLink to="/tickets" end className={({ isActive }) => isActive ? 'active' : ''}>
           Tickets
         </NavLink>
         <NavLink to="/tickets/new" className={({ isActive }) => isActive ? 'active' : ''}>
